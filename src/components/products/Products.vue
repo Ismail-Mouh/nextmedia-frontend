@@ -1,12 +1,14 @@
 <template>
   <div>
     <h1>Products list</h1>
+    <button class="btn btn-success" @click="showForm(true)">Create product</button>
+    <Form v-show="formVisibility" :showForm="showForm" :getProducts="getProducts"/>
     <table class="table">
       <thead>
       <tr>
-        <th scope="col" @click="sortBy('name')">Name {{sortingSymbol.name}}</th>
+        <th scope="col" @click="sortBy('name')">Name {{ sortingSymbol.name }}</th>
         <th scope="col">Description</th>
-        <th scope="col" @click="sortBy('price')">Price {{sortingSymbol.price}}</th>
+        <th scope="col" @click="sortBy('price')">Price {{ sortingSymbol.price }}</th>
       </tr>
       </thead>
       <tbody>
@@ -23,15 +25,20 @@
 <script>
 import axios from '@/utils/axios'
 import _ from 'lodash'
+import Form from "@/components/products/includes/Form";
 
 export default {
+  components: {
+    Form
+  },
   data() {
     return {
       products: [],
-      sortingSymbol : {
+      sortingSymbol: {
         name: '',
         price: '',
       },
+      formVisibility: false,
     }
   },
   computed: {},
@@ -53,6 +60,9 @@ export default {
     },
     handleSymbols(field) {
       this.sortingSymbol[field] = !this.sortingSymbol[field] ? '↓' : this.sortingSymbol[field] == '↓' ? '↑' : '↓'
+    },
+    showForm(value) {
+      this.formVisibility = value
     },
   },
 
