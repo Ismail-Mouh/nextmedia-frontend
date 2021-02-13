@@ -9,6 +9,7 @@
         <th scope="col" @click="sortBy('name')">Name {{ sortingSymbol.name }}</th>
         <th scope="col">Description</th>
         <th scope="col" @click="sortBy('price')">Price {{ sortingSymbol.price }}</th>
+        <th scope="col">Categories</th>
       </tr>
       </thead>
       <tbody>
@@ -16,6 +17,7 @@
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.price }}</td>
+        <td><span v-for="category in product.categories" :key="category.id">{{category.name}}<br></span></td>
       </tr>
       </tbody>
     </table>
