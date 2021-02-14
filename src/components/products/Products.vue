@@ -9,11 +9,15 @@
         <th scope="col" @click="sortBy('name')">Name {{ sortingSymbol.name }}</th>
         <th scope="col">Description</th>
         <th scope="col" @click="sortBy('price')">Price {{ sortingSymbol.price }}</th>
-        <th scope="col">Categories</th>
+        <th scope="col">
+          <select class="form-select" v-model="selectedCategory">
+            <option v-for="category in categories" :value="category.id" :key="category.id">{{category.name}}</option>
+          </select>
+        </th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="product in products" :key="product.id">
+      <tr v-for="product in productsTemp" :key="product.id">
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.price }}</td>
@@ -41,6 +45,12 @@ export default {
         price: '',
       },
       formVisibility: false,
+      categories: [{
+        id: 0,
+        name: 'Categories'
+      }],
+      selectedCategory: 0,
+      productsTemp: []
     }
   },
   computed: {},
@@ -53,11 +63,13 @@ export default {
     getProducts() {
       axios.get('/products').then((response) => {
         this.products = response.data
+        this.productsTemp = response.data
+        this.populateCategories()
       })
     },
     sortBy(field) {
-      this.products = _.sortBy(this.products, field)
-      this.sortingSymbol[field] == '↓' ? _.reverse(this.products) : null
+      this.productsTemp = _.sortBy(this.productsTemp, field)
+      this.sortingSymbol[field] == '↓' ? _.reverse(this.productsTemp) : null
       this.handleSymbols(field)
     },
     handleSymbols(field) {
@@ -66,6 +78,33 @@ export default {
     showForm(value) {
       this.formVisibility = value
     },
+    populateCategories() {
+      this.products.forEach((product) => {
+        product.categories.forEach((category) => {
+          this.categories.push(category)
+        })
+      })
+
+      this.categories = _.uniqBy(this.categories,'id')
+    }
+  },
+
+  watch : {
+    selectedCategory() {
+      if (this.selectedCategory) {
+        this.productsTemp = this.products.filter((product) => {
+          let found = false;
+          product.categories.forEach((category) => {
+            if (category.id == this.selectedCategory) {
+              found = true
+            }
+          })
+          return found
+        })
+      } else {
+        this.productsTemp = this.products
+      }
+    }
   },
 
 
