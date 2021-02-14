@@ -7,9 +7,9 @@
       <thead>
       <tr>
         <th scope="col">Image</th>
-        <th scope="col" @click="sortBy('name')">Name {{ sortingSymbol.name }}</th>
+        <th scope="col" @click="sortBy('name')" class="clickable">Name {{ sortingSymbol.name }}</th>
         <th scope="col">Description</th>
-        <th scope="col" @click="sortBy('price')">Price {{ sortingSymbol.price }}</th>
+        <th scope="col" @click="sortBy('price')" class="clickable">Price {{ sortingSymbol.price }}</th>
         <th scope="col">
           <select class="form-select" v-model="selectedCategory">
             <option v-for="category in categories" :value="category.id" :key="category.id">{{category.name}}</option>
@@ -19,7 +19,7 @@
       </thead>
       <tbody>
       <tr v-for="product in productsTemp" :key="product.id">
-        <td><img :src="baseURL + '/' + product.image" alt="" v-if="product.image"/></td>
+        <td><img :src="baseURL + '/' + product.image" alt="" v-if="product.image" class="product-image"/></td>
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.price }}</td>
@@ -34,6 +34,7 @@
 import axios from '@/utils/axios'
 import _ from 'lodash'
 import Form from "@/components/products/includes/Form";
+import './products.css'
 
 export default {
   components: {
