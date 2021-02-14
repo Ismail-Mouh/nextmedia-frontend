@@ -22,7 +22,7 @@
         <td><img :src="baseURL + '/' + product.image" alt="" v-if="product.image" class="product-image"/></td>
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
-        <td>{{ product.price }}</td>
+        <td>{{ product.price | formatFloat }}</td>
         <td><span v-for="category in product.categories" :key="category.id">{{category.name}}<br></span></td>
       </tr>
       </tbody>
@@ -35,6 +35,7 @@ import axios from '@/utils/axios'
 import _ from 'lodash'
 import Form from "@/components/products/includes/Form";
 import './products.css'
+import { formatFloat } from "@/utils/helpers";
 
 export default {
   components: {
@@ -110,6 +111,12 @@ export default {
       }
     }
   },
+
+  filters: {
+    formatFloat(value) {
+      return formatFloat(value)
+    }
+  }
 
 
 }
