@@ -6,6 +6,7 @@
     <table class="table">
       <thead>
       <tr>
+        <th scope="col">Image</th>
         <th scope="col" @click="sortBy('name')">Name {{ sortingSymbol.name }}</th>
         <th scope="col">Description</th>
         <th scope="col" @click="sortBy('price')">Price {{ sortingSymbol.price }}</th>
@@ -18,6 +19,7 @@
       </thead>
       <tbody>
       <tr v-for="product in productsTemp" :key="product.id">
+        <td><img :src="baseURL + '/' + product.image" alt="" v-if="product.image"/></td>
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.price }}</td>
@@ -50,7 +52,8 @@ export default {
         name: 'Categories'
       }],
       selectedCategory: 0,
-      productsTemp: []
+      productsTemp: [],
+      baseURL: process.env.VUE_APP_BASE_API
     }
   },
   computed: {},

@@ -1,6 +1,11 @@
 <template>
   <div>
     <div class="mb-3">
+      <label class="form-label">Product Image</label>
+      <br>
+      <UploadImage @updateImage="updateImage"/>
+    </div>
+    <div class="mb-3">
       <label class="form-label">Product Name</label>
       <input type="text" v-model="product.name" class="form-control">
     </div>
@@ -24,9 +29,14 @@
 
 <script>
 import axios from '@/utils/axios'
+import UploadImage from "@/utils/images/UploadImage";
 
 export default {
   props: ['showForm', 'getProducts'],
+
+  components: {
+    UploadImage
+  },
 
   data() {
     return {
@@ -34,9 +44,11 @@ export default {
         name: '',
         description: '',
         price: '',
-        categories: []
+        categories: [],
+        image: ''
       },
-      categories: []
+      categories: [],
+
     }
   },
 
@@ -65,7 +77,10 @@ export default {
         return false
       }
       return true
-    }
+    },
+    updateImage(value) {
+      this.product.image = value
+    },
   }
 
 }
