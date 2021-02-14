@@ -68,6 +68,7 @@ export default {
           alert("Product Created")
           this.getProducts()
           this.showForm(false)
+          this.emptyForm()
         })
       }
     },
@@ -81,6 +82,15 @@ export default {
     updateImage(value) {
       this.product.image = value
     },
+    emptyForm() {
+      this.product = {
+        name: '',
+        description: '',
+        price: '',
+        categories: [],
+        image: ''
+      }
+    }
   }
 
 }
